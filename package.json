@@ -1,0 +1,16 @@
+{
+  "name": "webauth-i-challenge",
+  "version": "1.0.0",
+  "description": "Today's project",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christopherc1331/webauth-i-challenge.git"
+  },
+  "keywords": [],
+  "author": "Chris",
+  "dependencies": {}
+}
