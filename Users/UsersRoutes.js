@@ -5,21 +5,31 @@ const bcrypt = require("bcryptjs");
 const UsersRouter = express.Router();
 
 UsersRouter.get("/", (req, res) => {
-  const user = req.header;
-
   UserDb.find()
     .then(users => {
-      if (username && bcrypt.compareSync(password, user.password)) {
-        res.status(200).json({ success: true, users });
-      } else {
-        res
-          .status(400)
-          .json({ success: false, message: "You shall not pass!" });
-      }
+      res.status(200).json({ success: true, users });
     })
     .catch(err => {
       res.status(500).json({ success: false, err });
     });
+});
+
+UsersRouter.post("/register", (req, res) => {
+  let user = req.body;
+  let hash = bcrypt.hashSync(user.password, 12);
+  user.password = hash;
+
+  if (user) {
+    UserDb.insert(user)
+      .then(saved => {
+        res.status(201).json({ success: true, saved });
+      })
+      .catch(err => {
+        res.status(500).json({ success: false, err });
+      });
+  } else {
+    res.status(400).json({ success: false, message: "User is required" });
+  }
 });
 
 module.exports = UsersRouter;
