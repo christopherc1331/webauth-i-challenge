@@ -32,4 +32,21 @@ UsersRouter.post("/register", (req, res) => {
   }
 });
 
+UsersRouter.post("/login", (req, res) => {
+  let { username, password } = req.body;
+
+  UserDb.findBy({ username })
+    .first()
+    .then(userInfo => {
+      if (userInfo && bcrypt.compareSync(password, userInfo.password)) {
+        res.status(200).json({ success: true, message: `Welcome ${username}` });
+      } else {
+        res
+          .status(401)
+          .json({ success: false, message: "You shall not pass!" });
+      }
+    })
+    .catch(err => res.status(500).json({ success: false, err }));
+});
+
 module.exports = UsersRouter;
